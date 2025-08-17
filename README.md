@@ -77,6 +77,8 @@ First, use `:checkhealth` to see if everything's okay.
 * Harpoon w/ previews
 * Add to Toggle which-key toggle for auto-formatting on save (off by default)
 * Show marks in sidebar
+* <leader>st for todos or something
+* My <ctrl>-k for showing diagnostics was pretty sick ngl.
 * neo-tree or something.
 * a nice bottom bar
 * nvim-barbecue
