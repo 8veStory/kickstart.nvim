@@ -21,6 +21,7 @@ External Requirements:
 - Language Setup:
   - If you want to write Typescript, you need `npm`
   - If you want to write Golang, you will need `go`
+- [difftastic](https://github.com/Wilfred/difftastic?tab=readme-ov-file) to maintain your sanity when looking at git diffs
 
 > [!NOTE]
 > See [Install Recipes](#Install-Recipes) for additional Windows and Linux specific notes
@@ -73,19 +74,29 @@ Use `:Lazy` to view the current plugin status.
 First, use `:checkhealth` to see if everything's okay.
 
 ### Wishlist
+* :set expandtab for space indentation
+* :set noexpandtab for tab indentation
+* :set shiftwidth=N for number of spaces
+* gx goes to files
+* Go to repository or something on remote?
 * which-key shouldn't immediately pop up.
 * Harpoon w/ previews
 * Add to Toggle which-key toggle for auto-formatting on save (off by default)
+    * I set it to off by default already
 * Show marks in sidebar
+* 
 * <leader>st for todos or something
 * My <ctrl>-k for showing diagnostics was pretty sick ngl.
 * neo-tree or something.
-* a nice bottom bar
+* Better markdown support for tabs and shit
+* a nice bottom bar statusline
+    * https://github.com/rebelot/heirline.nvim
 * nvim-barbecue
 * fff.nvim or snacks.picker or fzf.lua
 * Git Control
     * Viewing: nvim-diffview
     * Merge Conflicts: ...
+    * File history
 * AI
 * Smooth Cursor
 
