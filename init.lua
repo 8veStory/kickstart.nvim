@@ -114,8 +114,8 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
-vim.keymap.set({ "n" }, "<C-k>", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = "Open Line Diagnostics" })
-vim.keymap.set({ "n" }, "<leader>r", "<cmd>Neotree reveal<CR>", { desc = "[r]eveal Curr File in NeoTree" })
+vim.keymap.set({ 'n' }, '<C-k>', '<cmd>lua vim.diagnostic.open_float()<CR>', { desc = 'Open Line Diagnostics' })
+vim.keymap.set('n', '<leader>c', '<cmd>tabclose<CR>', { desc = '[c]lose current tab' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -747,7 +747,8 @@ require('lazy').setup({
         -- <c-k>: Toggle signature help
         --
         -- See :h blink-cmp-config-keymap for defining your own keymap
-        preset = 'default',
+        preset = 'enter',
+        -- preset = 'default',
 
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
@@ -809,6 +810,31 @@ require('lazy').setup({
       vim.cmd.colorscheme 'tokyonight-night'
     end,
   },
+
+  -- {
+  --   'catppuccin/nvim',
+  --   name = 'catppuccin',
+  --   priority = 1000,
+  --   config = function()
+  --     require('catppuccin').setup {
+  --       term_colors = true,
+  --       transparent_background = true,
+  --       integrations = {
+  --         gitsigns = true,
+  --         treesitter = true,
+  --         telescope = {
+  --           enabled = true,
+  --           style = 'nvchad',
+  --         },
+  --         dropbar = {
+  --           enabled = true,
+  --           color_mode = true,
+  --         },
+  --       },
+  --     }
+  --     -- vim.cmd.colorscheme 'catppuccin-mocha'
+  --   end,
+  -- },
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
@@ -928,13 +954,13 @@ require('lazy').setup({
         '<leader>A',
         function()
           local list = require('harpoon'):list()
-          local fidget = require('fidget')
-          local curr_file_name = vim.fn.expand("%")
+          local fidget = require 'fidget'
+          local curr_file_name = vim.fn.expand '%'
           local idx
           for i, it in ipairs(list.items) do
             print(it.value)
             if it.value == curr_file_name then
-              fidget.notify("Unharpooned " .. curr_file_name)
+              fidget.notify('Unharpooned ' .. curr_file_name)
               idx = i
               break
             end
@@ -942,7 +968,7 @@ require('lazy').setup({
           if idx then
             table.remove(list.items, idx)
           else
-            fidget.notify("Harpooned " .. curr_file_name)
+            fidget.notify('Harpooned ' .. curr_file_name)
             list:add()
           end
         end,
@@ -966,6 +992,21 @@ require('lazy').setup({
       --   desc = 'harpoon to file 1',
       -- },
     },
+  },
+
+  {
+    'stevearc/quicker.nvim',
+    event = 'FileType qf',
+    ---@module "quicker"
+    ---@type quicker.SetupOptions
+    opts = {},
+    config = function()
+      require('quicker').setup()
+    end,
+  },
+
+  {
+    'kevinhwang91/nvim-bqf',
   },
 
   {
@@ -1002,7 +1043,7 @@ require('lazy').setup({
     },
     keys = {
       { '<leader>gn', mode = { 'n' }, '<cmd>Neogit<CR>', desc = '[n]eogit' },
-    }
+    },
   },
 
   {
@@ -1030,6 +1071,18 @@ require('lazy').setup({
         duration_multiplier = 0.5,
       }
     end,
+  },
+
+  {
+    'chrishrb/gx.nvim',
+    init = function ()
+      vim.g.netrw_nogx = 1 -- disable netrw gx
+    end,
+    dependencies = { "nvim-lua/plenary.nvim" }, -- Required for Neovim < 0.10.0
+    config = true, -- default settings
+    submodules = false, -- not needed, submodules are required only for tests
+    keys = { { "gx", "<cmd>Browse<cr>", mode = { "n", "x" } } },
+    cmd = { "Browse" },
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the

@@ -80,14 +80,28 @@ First, use `:checkhealth` to see if everything's okay.
         * `ll` to see log
     * `nvim-diffview` operations visible in `<leader>g`
 * `ThePrimeagen/Harpoon` for marks on steroids via `<leader>a` and `<leader>A`
+* `Neotree` with `g?` for help and `<leader>r` to reveal current file
+* `nvim-bqf` and `quicker` for better quickfix list and loclist
+* Improved `gx` support. Easily search for more links, and even visually selected text for a quick Google Search.
 
 ### Wishlist
-* Session management so we can remember hehehe
+* A start screen
+* Grugfar
+* nvim-spectre
+* fzf-lua?
+    * fzf-frequency
+    * ability to turn Regex on and off
+    * ability to add file paths on and off
 * :set expandtab for space indentation
 * :set noexpandtab for tab indentation
 * :set shiftwidth=N for number of spaces
+* WTF.nvim
+* Avante or Claude Code or Copilot
+* quicker.nvim or bqf.nvim
+* auto-session
+* toggle-term
+* Session management so we can remember hehehe
 * gx goes to files
-* Go to repository or something on remote?
 * which-key shouldn't immediately pop up.
 * Harpoon w/ previews
 * Add to Toggle which-key toggle for auto-formatting on save (off by default)

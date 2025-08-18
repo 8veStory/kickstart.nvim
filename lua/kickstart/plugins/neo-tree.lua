@@ -12,12 +12,29 @@ return {
   lazy = false,
   keys = {
     { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
+    { '<leader>r', ':Neotree reveal<CR>', desc = '[r]eveal Curr File in NeoTree', silent = true },
   },
   opts = {
+    graph_style = 'kitty', -- https://www.reddit.com/r/neovim/comments/1gbtr00/neogit_adds_gitgraphnvim_git_log_renderer_for/
+    buffers = { follow_current_file = { enable = true } },
     filesystem = {
+      filtered_items = {
+        visible = true,
+        show_hidden_count = true,
+        -- hide_dotfiles = false,
+        -- hide_gitignored = false,
+      },
+      follow_current_file = {
+        enabled = true,
+        leave_dirs_open = false,
+      },
       window = {
         mappings = {
           ['\\'] = 'close_window',
+          ['/'] = 'none',
+          ['?'] = 'none',
+          ['g?'] = 'show_help',
+          ['Z'] = 'expand_all_nodes',
         },
       },
     },
