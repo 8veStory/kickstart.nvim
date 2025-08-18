@@ -74,6 +74,12 @@ Use `:Lazy` to view the current plugin status.
 First, use `:checkhealth` to see if everything's okay.
 
 * Smooth Scrolling w/ `neoscroll.nvim`
+* Smooth Git control with
+    * `:GBrowse` to go to web browser for viewing remote file
+    * `:Neogit` for Neogit commands
+        * `ll` to see log
+    * `nvim-diffview` operations visible in `<leader>g`
+* `ThePrimeagen/Harpoon` for marks on steroids via `<leader>a` and `<leader>A`
 
 ### Wishlist
 * :set expandtab for space indentation
@@ -86,7 +92,6 @@ First, use `:checkhealth` to see if everything's okay.
 * Add to Toggle which-key toggle for auto-formatting on save (off by default)
     * I set it to off by default already
 * Show marks in sidebar
-* 
 * <leader>st for todos or something
 * My <ctrl>-k for showing diagnostics was pretty sick ngl.
 * neo-tree or something.
@@ -95,10 +100,6 @@ First, use `:checkhealth` to see if everything's okay.
     * https://github.com/rebelot/heirline.nvim
 * nvim-barbecue
 * fff.nvim or snacks.picker or fzf.lua
-* Git Control
-    * Viewing: nvim-diffview
-    * Merge Conflicts: ...
-    * File history
 * AI
 * DONE Smooth Cursor
 
