@@ -905,12 +905,45 @@ require('lazy').setup({
       -- end, { desc = 'Open harpoon window' })
     end,
     keys = {
+      -- {
+      --   '<leader>A',
+      --   function()
+      --     local harpoon = require('harpoon')
+      --     harpoon:list():add()
+      --   end,
+      --   desc = 'Harpoon [A]dd file',
+      -- },
+      -- {
+      --   '<leader>r',
+      --   function()
+      --     local harpoon = require('harpoon')
+      --     harpoon:list():remove()
+      --   end,
+      --   desc = 'Harpoon [r]emove file',
+      -- },
       {
         '<leader>A',
         function()
-          require('harpoon'):list():add()
+          local list = require('harpoon'):list()
+          local fidget = require('fidget')
+          local curr_file_name = vim.fn.expand("%")
+          local idx
+          for i, it in ipairs(list.items) do
+            print(it.value)
+            if it.value == curr_file_name then
+              fidget.notify("Unharpooned " .. curr_file_name)
+              idx = i
+              break
+            end
+          end
+          if idx then
+            table.remove(list.items, idx)
+          else
+            fidget.notify("Harpooned " .. curr_file_name)
+            list:add()
+          end
         end,
-        desc = 'Harpoon [A]dd file',
+        desc = 'Harpoon toggle file',
       },
       {
         '<leader>a',
