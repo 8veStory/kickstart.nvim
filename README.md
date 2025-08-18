@@ -82,6 +82,7 @@ First, use `:checkhealth` to see if everything's okay.
 * `ThePrimeagen/Harpoon` for marks on steroids via `<leader>a` and `<leader>A`
 
 ### Wishlist
+* Session management so we can remember hehehe
 * :set expandtab for space indentation
 * :set noexpandtab for tab indentation
 * :set shiftwidth=N for number of spaces

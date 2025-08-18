@@ -114,6 +114,9 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
+vim.keymap.set({ "n" }, "<C-k>", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = "Open Line Diagnostics" })
+vim.keymap.set({ "n" }, "<leader>r", "<cmd>Neotree reveal<CR>", { desc = "[r]eveal Curr File in NeoTree" })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -997,6 +1000,9 @@ require('lazy').setup({
       -- "echasnovski/mini.pick",         -- optional
       -- "folke/snacks.nvim",             -- optional
     },
+    keys = {
+      { '<leader>gn', mode = { 'n' }, '<cmd>Neogit<CR>', desc = '[n]eogit' },
+    }
   },
 
   {
