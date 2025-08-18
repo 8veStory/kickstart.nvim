@@ -1075,14 +1075,14 @@ require('lazy').setup({
 
   {
     'chrishrb/gx.nvim',
+    keys = { { "gx", "<cmd>Browse<cr>", mode = { "n", "x" } } },
+    cmd = { "Browse" },
     init = function ()
       vim.g.netrw_nogx = 1 -- disable netrw gx
     end,
     dependencies = { "nvim-lua/plenary.nvim" }, -- Required for Neovim < 0.10.0
     config = true, -- default settings
     submodules = false, -- not needed, submodules are required only for tests
-    keys = { { "gx", "<cmd>Browse<cr>", mode = { "n", "x" } } },
-    cmd = { "Browse" },
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
