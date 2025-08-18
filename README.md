@@ -73,6 +73,8 @@ Use `:Lazy` to view the current plugin status.
 ### Feature Highlights
 First, use `:checkhealth` to see if everything's okay.
 
+* Smooth Scrolling w/ `neoscroll.nvim`
+
 ### Wishlist
 * :set expandtab for space indentation
 * :set noexpandtab for tab indentation
@@ -98,7 +100,7 @@ First, use `:checkhealth` to see if everything's okay.
     * Merge Conflicts: ...
     * File history
 * AI
-* Smooth Cursor
+* DONE Smooth Cursor
 
 ### Getting Started
 

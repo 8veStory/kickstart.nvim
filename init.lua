@@ -213,7 +213,7 @@ require('lazy').setup({
     opts = {
       -- delay between pressing a key and opening which-key (milliseconds)
       -- this setting is independent of vim.o.timeoutlen
-      delay = 50,
+      delay = 125,
       -- set icon mappings to true if you have a Nerd Font
       mappings = vim.g.have_nerd_font,
       -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
@@ -872,12 +872,65 @@ require('lazy').setup({
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
+
+  {
+    'sindrets/diffview.nvim',
+    keys = {
+      { '<leader>gd', mode = { 'n' }, '<cmd>DiffviewOpen<CR>', desc = 'Git [D]iff View' },
+      { '<leader>gf', mode = { 'n' }, '<cmd>DiffviewFileHistory %<CR>', desc = 'Diff View Log of Curr [F]ile' },
+      { '<leader>gl', mode = { 'n' }, '<cmd>DiffviewFileHistory -n999999<CR>', desc = 'Diff View Git [L]og' },
+    },
+    config = function()
+      require('diffview').setup {
+        view = {
+          merge_tool = {
+            -- Config for conflicted files in diff views during a merge or rebase.
+            layout = 'diff3_mixed',
+            disable_diagnostics = true, -- Temporarily disable diagnostics for conflict buffers while in the view.
+          },
+        },
+      }
+    end,
+  },
+
+  {
+    'NeogitOrg/neogit',
+    dependencies = {
+      'nvim-lua/plenary.nvim', -- required
+      'sindrets/diffview.nvim', -- optional - Diff integration
+
+      -- Only one of these is needed.
+      'nvim-telescope/telescope.nvim', -- optional
+      -- "ibhagwan/fzf-lua",              -- optional
+      -- "echasnovski/mini.pick",         -- optional
+      -- "folke/snacks.nvim",             -- optional
+    },
+  },
+
+  {
+    'tpope/vim-fugitive',
+  },
+  {
+    'tpope/vim-rhubarb',
+  },
+  {
+    'tommcdo/vim-fubitive',
+    config = function()
+      -- If Bitbucket is hosted at 'code.example.com'
+      -- vim.g.fubitive_domain_pattern = 'code%.example%.com'
+      -- If Bitbucket is not hosted at domain root, like 'code.example.com/bitbucket'
+      -- vim.g.fubitive_domain_context_path = 'bitbucket'
+      -- By default we assume TLS 'https://'
+      -- vim.g.fubitive_default_protocol = 'http://'
+    end,
+  },
+
   {
     'karb94/neoscroll.nvim',
     config = function()
-      require('neoscroll').setup({
-        duration_multiplier = 0.5
-      })
+      require('neoscroll').setup {
+        duration_multiplier = 0.5,
+      }
     end,
   },
 
@@ -893,7 +946,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
@@ -908,32 +961,33 @@ require('lazy').setup({
   -- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
   -- you can continue same window with `<space>sr` which resumes last telescope search
 }, {
-    ui = {
-      -- If you are using a Nerd Font: set icons to an empty table which will use the
-      -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
-      icons = vim.g.have_nerd_font and {} or {
-        cmd = '⌘',
-        config = '🛠',
-        event = '📅',
-        ft = '📂',
-        init = '⚙',
-        keys = '🗝',
-        plugin = '🔌',
-        runtime = '💻',
-        require = '🌙',
-        source = '📄',
-        start = '🚀',
-        task = '📌',
-        lazy = '💤 ',
-      },
+  ui = {
+    -- If you are using a Nerd Font: set icons to an empty table which will use the
+    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
+    icons = vim.g.have_nerd_font and {} or {
+      cmd = '⌘',
+      config = '🛠',
+      event = '📅',
+      ft = '📂',
+      init = '⚙',
+      keys = '🗝',
+      plugin = '🔌',
+      runtime = '💻',
+      require = '🌙',
+      source = '📄',
+      start = '🚀',
+      task = '📌',
+      lazy = '💤 ',
     },
-  })
+  },
+})
 
 local wk = require 'which-key'
 wk.add {
   { '<leader>s', group = '[S]earch' },
   { '<leader>t', group = '[T]oggle' },
   { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+  { '<leader>g', group = '[G]it' },
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
