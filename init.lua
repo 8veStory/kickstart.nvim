@@ -395,8 +395,48 @@ require('lazy').setup({
         glob_separator = '%s%-%-', -- query separator pattern (lua): ' --'
       },
     },
+    config = function()
+      local actions = require('fzf-lua').actions
+
+      require('fzf-lua').setup {
+        'telescope',
+        keymap = {
+          builtin = {
+            true,
+            ['<C-l>'] = 'focus-preview',
+          },
+        },
+      }
+    end,
+    keys = {
+      { '<leader>ff', mode = { 'n' }, '<cmd>FzfLua files<CR>', desc = 'Search [f]iles' },
+      { '<leader>fb', mode = { 'n' }, '<cmd>FzfLua buffers<CR>', desc = 'Search [b]uffers' },
+      -- { '<leader>fr', mode = { 'n' }, '<cmd>FzfLua oldfiles<CR>', desc = 'Search [r]ecent files' },
+      { '<leader>fc', mode = { 'n' }, '<cmd>FzfLua resume<CR>', desc = 'Search [c]ontinue' },
+      { '<leader>fC', mode = { 'n' }, '<cmd>FzfLua command_history<CR>', desc = 'Search [C]ommand history' },
+      { '<leader>fq', mode = { 'n' }, '<cmd>FzfLua quickfix<CR>', desc = 'Search [q]uickfix list' },
+      { '<leader>fl', mode = { 'n' }, '<cmd>FzfLua loclist<CR>', desc = 'Search [l]oclist' },
+      { '<leader>fd', mode = { 'n' }, '<cmd>FzfLua resume<CR>', desc = 'Search [c]ontinue' },
+      { '<leader>fg', mode = { 'n' }, '<cmd>FzfLua live_grep<CR>', desc = 'Search [g]rep' },
+      { '<leader>fG', mode = { 'n' }, '<cmd>FzfLua grep_curbug<CR>', desc = 'Search [g]rep curr buffer' },
+      { '<leader>fd', mode = { 'n' }, '<cmd>FzfLua diagnostics_document<CR>', desc = 'Search document [d]iagnostics' },
+      { '<leader>fD', mode = { 'n' }, '<cmd>FzfLua diagnostics_workspace<CR>', desc = 'Search workspace [D]iagnostics' },
+      { '<leader>fh', mode = { 'n' }, '<cmd>FzfLua helptags<CR>', desc = 'Search [h]elp' },
+      { '<leader>fm', mode = { 'n' }, '<cmd>FzfLua manpages<CR>', desc = 'Search [m]anpages' },
+      { '<leader>gB', mode = { 'n' }, '<cmd>FzfLua git_branches<CR>', desc = 'Checkout Git [B]ranch' },
+    },
   },
+
   -- TODO: fzf-lua frequency for old files. A better way to continue searches maybe?
+  {
+    'elanmed/fzf-lua-frecency.nvim',
+    config = function()
+      require('fzf-lua-frecency').setup()
+    end,
+    keys = {
+      { '<leader>fr', mode = { 'n' }, '<cmd>FzfLua frecency<CR>', desc = 'Search [r]ecent files' },
+    },
+  },
 
   -- LSP Plugins
   {
@@ -680,7 +720,7 @@ require('lazy').setup({
     cmd = { 'ConformInfo' },
     keys = {
       {
-        '<leader>f',
+        '<leader>F',
         function()
           require('conform').format { async = true, lsp_format = 'fallback' }
         end,
@@ -1074,8 +1114,8 @@ require('lazy').setup({
       'sindrets/diffview.nvim', -- optional - Diff integration
 
       -- Only one of these is needed.
-      'nvim-telescope/telescope.nvim', -- optional
-      -- "ibhagwan/fzf-lua",              -- optional
+      -- 'nvim-telescope/telescope.nvim', -- optional
+      'ibhagwan/fzf-lua', -- optional
       -- "echasnovski/mini.pick",         -- optional
       -- "folke/snacks.nvim",             -- optional
     },
@@ -1173,6 +1213,7 @@ require('lazy').setup({
 
 local wk = require 'which-key'
 wk.add {
+  { '<leader>f', group = '[F]zf' },
   { '<leader>s', group = '[S]earch' },
   { '<leader>t', group = '[T]oggle' },
   { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
