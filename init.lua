@@ -115,7 +115,8 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
 vim.keymap.set({ 'n' }, '<C-k>', '<cmd>lua vim.diagnostic.open_float()<CR>', { desc = 'Open Line Diagnostics' })
-vim.keymap.set('n', '<leader>c', '<cmd>tabclose<CR>', { desc = '[c]lose current tab' })
+vim.keymap.set('n', '<leader>C', '<cmd>tabclose<CR>', { desc = '[c]lose current tab' })
+vim.keymap.set('n', '<leader>tw', '<cmd>set wrap!<CR>', { desc = '[T]oggle [w]ord wrap' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -371,6 +372,31 @@ require('lazy').setup({
       end, { desc = '[S]earch [N]eovim files' })
     end,
   },
+
+  {
+    'ibhagwan/fzf-lua',
+    opts = {
+      oldfiles = {
+        include_current_session = true, -- Include buffers visited in current session
+      },
+      previewers = {
+        builtin = {
+          syntax_limit_b = 1024 * 100, -- 100KB
+        },
+      },
+      grep = {
+        -- Enable rg for file filtering
+        -- Ex: Find "enable" only in "plugins" directory.
+        -- > enable -- */plugins/*
+        -- Ex: Find "my_text" only in lua files.
+        -- > my_text -- *.lua
+        rg_glob = true, -- enable glob parsing
+        glob_flag = '--iglob', -- case insensitive globs
+        glob_separator = '%s%-%-', -- query separator pattern (lua): ' --'
+      },
+    },
+  },
+  -- TODO: fzf-lua frequency for old files. A better way to continue searches maybe?
 
   -- LSP Plugins
   {
@@ -1015,9 +1041,21 @@ require('lazy').setup({
       { '<leader>gd', mode = { 'n' }, '<cmd>DiffviewOpen<CR>', desc = 'Git [D]iff View' },
       { '<leader>gf', mode = { 'n' }, '<cmd>DiffviewFileHistory %<CR>', desc = 'Diff View Log of Curr [F]ile' },
       { '<leader>gl', mode = { 'n' }, '<cmd>DiffviewFileHistory -n999999<CR>', desc = 'Diff View Git [L]og' },
+      { '<leader>gc', mode = { 'n' }, '<cmd>DiffviewOpen origin/master<CR>', desc = 'Diff [c]ompare cwd to branch' },
+      { '<leader>gC', mode = { 'n' }, '<cmd>DiffviewOpen origin/master...HEAD<CR>', desc = 'Diff [C]ompare HEAD...branch' },
+      -- You can use :diffget in DiffView to apply the other diff's changes to the current block.
     },
     config = function()
       require('diffview').setup {
+        hooks = {
+          diff_buf_read = function()
+            -- make "diff" buffers non-modifiable
+            local fname = vim.fn.expand '%:h'
+            if fname:match 'diffview' then
+              vim.opt_local.modifiable = false
+            end
+          end,
+        },
         view = {
           merge_tool = {
             -- Config for conflicted files in diff views during a merge or rebase.
@@ -1075,12 +1113,12 @@ require('lazy').setup({
 
   {
     'chrishrb/gx.nvim',
-    keys = { { "gx", "<cmd>Browse<cr>", mode = { "n", "x" } } },
-    cmd = { "Browse" },
-    init = function ()
+    keys = { { 'gx', '<cmd>Browse<cr>', mode = { 'n', 'x' } } },
+    cmd = { 'Browse' },
+    init = function()
       vim.g.netrw_nogx = 1 -- disable netrw gx
     end,
-    dependencies = { "nvim-lua/plenary.nvim" }, -- Required for Neovim < 0.10.0
+    dependencies = { 'nvim-lua/plenary.nvim' }, -- Required for Neovim < 0.10.0
     config = true, -- default settings
     submodules = false, -- not needed, submodules are required only for tests
   },

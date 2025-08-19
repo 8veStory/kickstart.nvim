@@ -22,6 +22,7 @@ External Requirements:
   - If you want to write Typescript, you need `npm`
   - If you want to write Golang, you will need `go`
 - [difftastic](https://github.com/Wilfred/difftastic?tab=readme-ov-file) to maintain your sanity when looking at git diffs
+- [Kitty cursor_trail](https://sw.kovidgoyal.net/kitty/conf/#opt-kitty.cursor_trail)
 
 > [!NOTE]
 > See [Install Recipes](#Install-Recipes) for additional Windows and Linux specific notes
@@ -83,15 +84,22 @@ First, use `:checkhealth` to see if everything's okay.
 * `Neotree` with `g?` for help and `<leader>r` to reveal current file
 * `nvim-bqf` and `quicker` for better quickfix list and loclist
 * Improved `gx` support. Easily search for more links, and even visually selected text for a quick Google Search.
+* `Diffview`:
+
 
 ### Wishlist
-* A start screen
-* Grugfar
-* nvim-spectre
+* DiffviewOpen:
+    * Compare HEAD to <insert-branch-via-picker>
+    * Compare Working Directory to <insert-branch-via-picker>
+* Switch to Grapple instead because Harpoon2 is buggy. (https://github.com/ThePrimeagen/harpoon/issues/577)
 * fzf-lua?
     * fzf-frequency
     * ability to turn Regex on and off
     * ability to add file paths on and off
+
+* A start screen
+* Grugfar
+* nvim-spectre
 * :set expandtab for space indentation
 * :set noexpandtab for tab indentation
 * :set shiftwidth=N for number of spaces
