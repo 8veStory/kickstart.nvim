@@ -411,14 +411,14 @@ require('lazy').setup({
     keys = {
       { '<leader>ff', mode = { 'n' }, '<cmd>FzfLua files<CR>', desc = 'Search [f]iles' },
       { '<leader>fb', mode = { 'n' }, '<cmd>FzfLua buffers<CR>', desc = 'Search [b]uffers' },
-      -- { '<leader>fr', mode = { 'n' }, '<cmd>FzfLua oldfiles<CR>', desc = 'Search [r]ecent files' },
+      -- { '<leader>fR', mode = { 'n' }, '<cmd>FzfLua oldfiles<CR>', desc = 'Search [r]ecent files' },
       { '<leader>fc', mode = { 'n' }, '<cmd>FzfLua resume<CR>', desc = 'Search [c]ontinue' },
       { '<leader>fC', mode = { 'n' }, '<cmd>FzfLua command_history<CR>', desc = 'Search [C]ommand history' },
       { '<leader>fq', mode = { 'n' }, '<cmd>FzfLua quickfix<CR>', desc = 'Search [q]uickfix list' },
       { '<leader>fl', mode = { 'n' }, '<cmd>FzfLua loclist<CR>', desc = 'Search [l]oclist' },
       { '<leader>fd', mode = { 'n' }, '<cmd>FzfLua resume<CR>', desc = 'Search [c]ontinue' },
       { '<leader>fg', mode = { 'n' }, '<cmd>FzfLua live_grep<CR>', desc = 'Search [g]rep' },
-      { '<leader>fG', mode = { 'n' }, '<cmd>FzfLua grep_curbug<CR>', desc = 'Search [g]rep curr buffer' },
+      { '<leader>fG', mode = { 'n' }, '<cmd>FzfLua grep_curbuf<CR>', desc = 'Search [g]rep curr buffer' },
       { '<leader>fd', mode = { 'n' }, '<cmd>FzfLua diagnostics_document<CR>', desc = 'Search document [d]iagnostics' },
       { '<leader>fD', mode = { 'n' }, '<cmd>FzfLua diagnostics_workspace<CR>', desc = 'Search workspace [D]iagnostics' },
       { '<leader>fh', mode = { 'n' }, '<cmd>FzfLua helptags<CR>', desc = 'Search [h]elp' },
@@ -1161,6 +1161,67 @@ require('lazy').setup({
     dependencies = { 'nvim-lua/plenary.nvim' }, -- Required for Neovim < 0.10.0
     config = true, -- default settings
     submodules = false, -- not needed, submodules are required only for tests
+  },
+
+  {
+    'folke/snacks.nvim',
+    priority = 1000,
+    lazy = false,
+    ---@type snacks.Config
+    opts = {
+      bigfile = { enabled = true },
+      dashboard = {
+        sections = {
+          { section = 'header' },
+          {
+            pane = 2,
+            section = 'terminal',
+            cmd = 'ls',
+            height = 5,
+            padding = 1,
+          },
+          { section = 'keys', gap = 1, padding = 1 },
+          { pane = 2, icon = ' ', title = 'Recent Files', section = 'recent_files', indent = 2, padding = 1 },
+          { pane = 2, icon = ' ', title = 'Projects', section = 'projects', indent = 2, padding = 1 },
+          { section = 'startup' },
+        },
+      },
+      input = { enabled = true },
+      indent = { enabled = true },
+      scope = { enabled = true },
+      words = { enabled = false },
+
+      explorer = { enabled = false },
+      picker = { enabled = false },
+      notifier = { enabled = false },
+      quickfile = { enabled = false },
+      scroll = { enabled = false },
+      statuscolumn = { enabled = false },
+    },
+  },
+
+  -- {
+  --   'folke/persistence.nvim',
+  --   event = 'BufReadPre', -- this will only start session saving when an actual file was opened
+  --   opts = {
+  --     -- add any custom options here
+  --     dir = vim.fn.stdpath 'state' .. '/sessions/', -- directory where session files are saved
+  --     -- minimum number of file buffers that need to be open to save
+  --     -- Set to 0 to always save
+  --     need = 1,
+  --     branch = true, -- use git branch to save session
+  --   },
+  -- },
+
+  {
+    'olimorris/persisted.nvim',
+    event = 'BufReadPre', -- Ensure the plugin loads only when a buffer has been loaded
+    opts = {
+      -- Your config goes here ...
+    },
+    config = function()
+      require('telescope').load_extension 'persisted'
+    end,
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the

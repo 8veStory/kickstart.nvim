@@ -84,7 +84,8 @@ First, use `:checkhealth` to see if everything's okay.
 * `Neotree` with `g?` for help and `<leader>r` to reveal current file
 * `nvim-bqf` and `quicker` for better quickfix list and loclist
 * Improved `gx` support. Easily search for more links, and even visually selected text for a quick Google Search.
-* `Diffview`:
+* `Diffview`
+* `fzf-lua` via `<leader>f` with recency frequency for better results.
 
 
 ### Wishlist
@@ -92,8 +93,8 @@ First, use `:checkhealth` to see if everything's okay.
     * Compare HEAD to <insert-branch-via-picker>
     * Compare Working Directory to <insert-branch-via-picker>
 * Switch to Grapple instead because Harpoon2 is buggy. (https://github.com/ThePrimeagen/harpoon/issues/577)
+* Autosession
 * fzf-lua?
-    * fzf-frequency
     * ability to turn Regex on and off
     * ability to add file paths on and off
 
