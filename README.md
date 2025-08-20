@@ -87,14 +87,15 @@ First, use `:checkhealth` to see if everything's okay.
 * `Diffview` via `<leader>g` lets you diff cwd, against HEAD and against any other branch!
 * `fzf-lua` via `<leader>f` with recency frequency for better results.
 * `persisted` session management via `<leader>sp`
+* `grug-far` via `<leader>fR` for great find and replace
 * A nice dashboard with project management
 
 
 ### Wishlist
-* DiffviewOpen:
-    * Compare HEAD to <insert-branch-via-picker>
-    * Compare Working Directory to <insert-branch-via-picker>
 * Switch to Grapple instead because Harpoon2 is buggy. (https://github.com/ThePrimeagen/harpoon/issues/577)
+* A window movement mode
+
+* Dropbbar
 
 * Grugfar
 * nvim-spectre

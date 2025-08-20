@@ -114,7 +114,7 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
-vim.keymap.set({ 'n' }, '<C-k>', '<cmd>lua vim.diagnostic.open_float()<CR>', { desc = 'Open Line Diagnostics' })
+vim.keymap.set('n', '<C-k>', '<cmd>lua vim.diagnostic.open_float()<CR>', { desc = 'Open Line Diagnostics' })
 vim.keymap.set('n', '<leader>C', '<cmd>tabclose<CR>', { desc = '[c]lose current tab' })
 vim.keymap.set('n', '<leader>tw', '<cmd>set wrap!<CR>', { desc = '[T]oggle [w]ord wrap' })
 
@@ -1293,6 +1293,55 @@ require('lazy').setup({
         on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
       }
     end,
+  },
+
+  {
+    'akinsho/bufferline.nvim',
+    version = '*',
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    config = function()
+      require('bufferline').setup {
+        options = {
+          diagnostics = 'nvim_lsp',
+          hover = {
+            enabled = true,
+            delay = 200,
+            reveal = { 'close' },
+          },
+        },
+      }
+    end,
+    keys = {
+      { "[b", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
+      { "]b", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
+      { "[B", "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev" },
+      { "]B", "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer next" },
+      { "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
+      { "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
+    }
+  },
+
+    {
+    "MagicDuck/grug-far.nvim",
+    opts = { headerMaxWidth = 80 },
+    cmd = "GrugFar",
+    keys = {
+      {
+        "<leader>fR",
+        function()
+          local grug = require("grug-far")
+          local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
+          grug.open({
+            transient = true,
+            prefills = {
+              filesFilter = ext and ext ~= "" and "*." .. ext or nil,
+            },
+          })
+        end,
+        mode = { "n", "v" },
+        desc = "[f]ind and [R]eplace",
+      },
+    },
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
