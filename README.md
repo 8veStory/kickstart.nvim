@@ -84,8 +84,10 @@ First, use `:checkhealth` to see if everything's okay.
 * `Neotree` with `g?` for help and `<leader>r` to reveal current file
 * `nvim-bqf` and `quicker` for better quickfix list and loclist
 * Improved `gx` support. Easily search for more links, and even visually selected text for a quick Google Search.
-* `Diffview`
+* `Diffview` via `<leader>g` lets you diff cwd, against HEAD and against any other branch!
 * `fzf-lua` via `<leader>f` with recency frequency for better results.
+* `persisted` session management via `<leader>sp`
+* A nice dashboard with project management
 
 
 ### Wishlist
@@ -93,28 +95,16 @@ First, use `:checkhealth` to see if everything's okay.
     * Compare HEAD to <insert-branch-via-picker>
     * Compare Working Directory to <insert-branch-via-picker>
 * Switch to Grapple instead because Harpoon2 is buggy. (https://github.com/ThePrimeagen/harpoon/issues/577)
-* Autosession
-* fzf-lua?
-    * ability to turn Regex on and off
-    * ability to add file paths on and off
 
-* A start screen
 * Grugfar
 * nvim-spectre
 * :set expandtab for space indentation
 * :set noexpandtab for tab indentation
 * :set shiftwidth=N for number of spaces
+
 * WTF.nvim
 * Avante or Claude Code or Copilot
-* quicker.nvim or bqf.nvim
-* auto-session
 * toggle-term
-* Session management so we can remember hehehe
-* gx goes to files
-* which-key shouldn't immediately pop up.
-* Harpoon w/ previews
-* Add to Toggle which-key toggle for auto-formatting on save (off by default)
-    * I set it to off by default already
 * Show marks in sidebar
 * <leader>st for todos or something
 * My <ctrl>-k for showing diagnostics was pretty sick ngl.

@@ -423,6 +423,7 @@ require('lazy').setup({
       { '<leader>fD', mode = { 'n' }, '<cmd>FzfLua diagnostics_workspace<CR>', desc = 'Search workspace [D]iagnostics' },
       { '<leader>fh', mode = { 'n' }, '<cmd>FzfLua helptags<CR>', desc = 'Search [h]elp' },
       { '<leader>fm', mode = { 'n' }, '<cmd>FzfLua manpages<CR>', desc = 'Search [m]anpages' },
+      { '<leader>ft', mode = { 'n' }, '<cmd>TodoFzfLua<CR>', desc = 'Search [t]odos' },
       { '<leader>gB', mode = { 'n' }, '<cmd>FzfLua git_branches<CR>', desc = 'Checkout Git [B]ranch' },
     },
   },
@@ -977,7 +978,7 @@ require('lazy').setup({
       harpoon:setup()
 
       local conf = require('telescope.config').values
-      function harpoon_toggle_telescope(harpoon_files)
+      local function harpoon_toggle_telescope(harpoon_files)
         local file_paths = {}
         for _, item in ipairs(harpoon_files.items) do
           table.insert(file_paths, item.value)
@@ -994,6 +995,7 @@ require('lazy').setup({
           })
           :find()
       end
+      _G.harpoon_toggle_telescope = harpoon_toggle_telescope
 
       -- vim.keymap.set('n', '<C-e>', function()
       --   toggle_telescope(harpoon:list())
@@ -1081,15 +1083,65 @@ require('lazy').setup({
       { '<leader>gd', mode = { 'n' }, '<cmd>DiffviewOpen<CR>', desc = 'Git [D]iff View' },
       { '<leader>gf', mode = { 'n' }, '<cmd>DiffviewFileHistory %<CR>', desc = 'Diff View Log of Curr [F]ile' },
       { '<leader>gl', mode = { 'n' }, '<cmd>DiffviewFileHistory -n999999<CR>', desc = 'Diff View Git [L]og' },
-      { '<leader>gc', mode = { 'n' }, '<cmd>DiffviewOpen origin/master<CR>', desc = 'Diff [c]ompare cwd to branch' },
-      { '<leader>gC', mode = { 'n' }, '<cmd>DiffviewOpen origin/master...HEAD<CR>', desc = 'Diff [C]ompare HEAD...branch' },
-      -- You can use :diffget in DiffView to apply the other diff's changes to the current block.
+      {
+        '<leader>gc',
+        mode = { 'n' },
+        function()
+          diffview_pick_branch()
+        end,
+        desc = 'Diff [c]ompare cwd to picked branch',
+      },
+      {
+        '<leader>gC',
+        mode = { 'n' },
+        function()
+          diffview_pick_branch { three_dot = true }
+        end,
+        desc = 'Diff [C]ompare HEAD (latest commit) to picked branch',
+      },
     },
     config = function()
+      local fzf = require 'fzf-lua'
+
+      -- Safe extractor for a branch/ref from an fzf-lua git_branches line
+      local function extract_branch(line)
+        if not line then
+          return nil
+        end
+        line = tostring(line)
+        -- remove leading spaces and optional "*"
+        line = line:gsub('^%s*%*?%s*', '')
+        -- take the first non-space token
+        local name = line:match '^(%S+)'
+        return name
+      end
+
+      local function diffview_pick_branch(opts)
+        local fzf = require 'fzf-lua'
+        fzf.git_branches {
+          actions = {
+            ['default'] = function(selected)
+              local line = selected and selected[1] or nil
+              local branch = extract_branch(line)
+
+              if not branch or branch == '' then
+                return
+              end
+
+              if opts and opts.three_dot then
+                vim.cmd('DiffviewOpen ' .. branch .. '...HEAD')
+              else
+                vim.cmd('DiffviewOpen ' .. branch)
+              end
+            end,
+          },
+        }
+      end
+
       require('diffview').setup {
         hooks = {
+          -- make "diff" buffers non-modifiable
           diff_buf_read = function()
-            -- make "diff" buffers non-modifiable
             local fname = vim.fn.expand '%:h'
             if fname:match 'diffview' then
               vim.opt_local.modifiable = false
@@ -1104,6 +1156,9 @@ require('lazy').setup({
           },
         },
       }
+
+      -- expose the helper so your keymaps can call it
+      _G.diffview_pick_branch = diffview_pick_branch
     end,
   },
 
@@ -1200,19 +1255,6 @@ require('lazy').setup({
     },
   },
 
-  -- {
-  --   'folke/persistence.nvim',
-  --   event = 'BufReadPre', -- this will only start session saving when an actual file was opened
-  --   opts = {
-  --     -- add any custom options here
-  --     dir = vim.fn.stdpath 'state' .. '/sessions/', -- directory where session files are saved
-  --     -- minimum number of file buffers that need to be open to save
-  --     -- Set to 0 to always save
-  --     need = 1,
-  --     branch = true, -- use git branch to save session
-  --   },
-  -- },
-
   {
     'olimorris/persisted.nvim',
     event = 'BufReadPre', -- Ensure the plugin loads only when a buffer has been loaded
@@ -1221,6 +1263,30 @@ require('lazy').setup({
     },
     config = function()
       require('telescope').load_extension 'persisted'
+    end,
+    keys = {
+      { '<leader>sp', mode = { 'n' }, '<cmd>Telescope persisted<CR>', desc = 'Search [p]ersisted sessions' },
+    },
+  },
+
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    config = function()
+      require('treesitter-context').setup {
+        enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+        multiwindow = false, -- Enable multiwindow support.
+        max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+        min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+        line_numbers = true,
+        multiline_threshold = 20, -- Maximum number of lines to show for a single context
+        trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+        mode = 'cursor', -- Line used to calculate context. Choices: 'cursor', 'topline'
+        -- Separator between context and content. Should be a single character string, like '-'.
+        -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+        separator = nil,
+        zindex = 20, -- The Z-index of the context window
+        on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
+      }
     end,
   },
 
