@@ -1177,6 +1177,11 @@ require('lazy').setup({
     keys = {
       { '<leader>gn', mode = { 'n' }, '<cmd>Neogit<CR>', desc = '[n]eogit' },
     },
+    config = function()
+      require('neogit').setup {
+        graph_style = 'kitty', -- https://www.reddit.com/r/neovim/comments/1gbtr00/neogit_adds_gitgraphnvim_git_log_renderer_for/
+      }
+    end,
   },
 
   {

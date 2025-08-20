@@ -15,7 +15,6 @@ return {
     { '<leader>r', ':Neotree reveal<CR>', desc = '[r]eveal Curr File in NeoTree', silent = true },
   },
   opts = {
-    graph_style = 'kitty', -- https://www.reddit.com/r/neovim/comments/1gbtr00/neogit_adds_gitgraphnvim_git_log_renderer_for/
     buffers = { follow_current_file = { enable = true } },
     filesystem = {
       filtered_items = {
