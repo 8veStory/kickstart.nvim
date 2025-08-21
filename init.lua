@@ -1318,6 +1318,18 @@ require('lazy').setup({
     event = 'VeryLazy',
   },
 
+  {
+    'stevearc/overseer.nvim',
+    opts = {},
+    config = function()
+      require('overseer').setup()
+    end,
+    keys = {
+        { '<leader>oO', mode = { 'n' }, '<cmd>OverseerRun<CR>', desc = '[O]verseer Run' },
+        { '<leader>oo', mode = { 'n' }, '<cmd>OverseerToggle<CR>', desc = '[o]verseer Toggle Tasks' },
+      }
+  },
+
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
@@ -1373,6 +1385,7 @@ wk.add {
   { '<leader>t', group = '[T]oggle' },
   { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
   { '<leader>g', group = '[G]it' },
+  { '<leader>o', group = '[o]verseer' },
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
