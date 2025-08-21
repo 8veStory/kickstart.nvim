@@ -70,9 +70,9 @@ nvim
 ```
 
 Use `:Lazy` to view the current plugin status.
+Use `:checkhealth` to see if everything's okay.
 
-### Feature Highlights
-First, use `:checkhealth` to see if everything's okay.
+### What I Added
 
 * Smooth Scrolling w/ `neoscroll.nvim`
 * Smooth Git control with
@@ -80,7 +80,6 @@ First, use `:checkhealth` to see if everything's okay.
     * `:Neogit` for Neogit commands
         * `ll` to see log
     * `nvim-diffview` operations visible in `<leader>g`
-* `ThePrimeagen/Harpoon` for marks on steroids via `<leader>a` and `<leader>A`
 * `Neotree` with `g?` for help and `<leader>r` to reveal current file
 * `nvim-bqf` and `quicker` for better quickfix list and loclist
 * Improved `gx` support. Easily search for more links, and even visually selected text for a quick Google Search.
@@ -88,22 +87,22 @@ First, use `:checkhealth` to see if everything's okay.
 * `fzf-lua` via `<leader>f` with recency frequency for better results.
 * `persisted` session management via `<leader>sp`
 * `grug-far` via `<leader>fR` for great find and replace
-* A nice dashboard with project management
+* `Snacks.nvim` dashboard with project navigation.
+* `Grapple.nvim` for marks on steroids via `<leader>a` and `<leader>A`
 
 
 ### Wishlist
+* :set expandtab for space indentation
+* :set noexpandtab for tab indentation
+* :set shiftwidth=N for number of spaces
+* overseer.nvim
+
 * Instead of numbers for tabs I still want to see what they are.. maybe there's an option in `bufferline-configuration`
-* Switch to Grapple instead because Harpoon2 is buggy. (https://github.com/ThePrimeagen/harpoon/issues/577) or Arrow
-* A window movement mode
 
 * Dropbbar or Barbecue
 
 * nvim-spectre
-* :set expandtab for space indentation
-* :set noexpandtab for tab indentation
-* :set shiftwidth=N for number of spaces
 
-* overseer.nvim
 * debugging
 * vim-test or neotest
 

@@ -117,6 +117,7 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.keymap.set('n', '<C-k>', '<cmd>lua vim.diagnostic.open_float()<CR>', { desc = 'Open Line Diagnostics' })
 vim.keymap.set('n', '<leader>C', '<cmd>tabclose<CR>', { desc = '[c]lose current tab' })
 vim.keymap.set('n', '<leader>tw', '<cmd>set wrap!<CR>', { desc = '[T]oggle [w]ord wrap' })
+vim.keymap.set('n', '<leader>ts', '<cmd>set expandtab!<CR>', { desc = '[T]oggle tabs/spaces' })
 
 vim.keymap.set('n', '<S-Up>', '<cmd>resize +2<cr>', { desc = 'Increase Window Height' })
 vim.keymap.set('n', '<S-Down>', '<cmd>resize -2<cr>', { desc = 'Decrease Window Height' })
@@ -975,96 +976,22 @@ require('lazy').setup({
   },
 
   {
-    'ThePrimeagen/harpoon',
-    branch = 'harpoon2',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    config = function()
-      local harpoon = require 'harpoon'
-      harpoon:setup()
-
-      local conf = require('telescope.config').values
-      local function harpoon_toggle_telescope(harpoon_files)
-        local file_paths = {}
-        for _, item in ipairs(harpoon_files.items) do
-          table.insert(file_paths, item.value)
-        end
-
-        require('telescope.pickers')
-          .new({}, {
-            prompt_title = 'Harpoon',
-            finder = require('telescope.finders').new_table {
-              results = file_paths,
-            },
-            previewer = conf.file_previewer {},
-            sorter = conf.generic_sorter {},
-          })
-          :find()
-      end
-      _G.harpoon_toggle_telescope = harpoon_toggle_telescope
-
-      -- vim.keymap.set('n', '<C-e>', function()
-      --   toggle_telescope(harpoon:list())
-      -- end, { desc = 'Open harpoon window' })
-    end,
-    keys = {
-      -- {
-      --   '<leader>A',
-      --   function()
-      --     local harpoon = require('harpoon')
-      --     harpoon:list():add()
-      --   end,
-      --   desc = 'Harpoon [A]dd file',
-      -- },
-      -- {
-      --   '<leader>r',
-      --   function()
-      --     local harpoon = require('harpoon')
-      --     harpoon:list():remove()
-      --   end,
-      --   desc = 'Harpoon [r]emove file',
-      -- },
-      {
-        '<leader>A',
-        function()
-          local list = require('harpoon'):list()
-          local fidget = require 'fidget'
-          local curr_file_name = vim.fn.expand '%'
-          local idx
-          for i, it in ipairs(list.items) do
-            print(it.value)
-            if it.value == curr_file_name then
-              fidget.notify('Unharpooned ' .. curr_file_name)
-              idx = i
-              break
-            end
-          end
-          if idx then
-            table.remove(list.items, idx)
-          else
-            fidget.notify('Harpooned ' .. curr_file_name)
-            list:add()
-          end
-        end,
-        desc = 'Harpoon toggle file',
-      },
-      {
-        '<leader>a',
-        function()
-          local harpoon = require 'harpoon'
-
-          harpoon_toggle_telescope(harpoon:list())
-          -- harpoon.ui:toggle_quick_menu(harpoon:list())
-        end,
-        desc = 'Harpoon quick menu',
-      },
-      -- {
-      --   '<leader>1',
-      --   function()
-      --     require('harpoon'):list():select(1)
-      --   end,
-      --   desc = 'harpoon to file 1',
-      -- },
+    'cbochs/grapple.nvim',
+    opts = {
+      scope = 'git', -- also try out "git_branch"
     },
+    event = { 'BufReadPost', 'BufNewFile' },
+    cmd = 'Grapple',
+    keys = {
+      { '<leader>A', '<cmd>Grapple toggle<cr>', desc = 'Grapple toggle tag' },
+      -- { "<leader>a", "<cmd>Grapple toggle_tags<cr>", desc = "Grapple open tags window" },
+      { '<leader>a', '<cmd>Telescope grapple tags<cr>', desc = 'Grapple open tags window' },
+      -- { "<leader>n", "<cmd>Grapple cycle_tags next<cr>", desc = "Grapple cycle next tag" },
+      -- { "<leader>p", "<cmd>Grapple cycle_tags prev<cr>", desc = "Grapple cycle previous tag" },
+    },
+    config = function()
+      require('telescope').load_extension 'grapple'
+    end,
   },
 
   {
@@ -1223,7 +1150,7 @@ require('lazy').setup({
         default_mappings = false,
         builtin_marks = { '.', '<', '>', '^', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' },
       }
-      vim.api.nvim_set_hl(0, "MarkSignNumHL", {})
+      vim.api.nvim_set_hl(0, 'MarkSignNumHL', {})
     end,
   },
 
