@@ -92,31 +92,34 @@ First, use `:checkhealth` to see if everything's okay.
 
 
 ### Wishlist
-* Switch to Grapple instead because Harpoon2 is buggy. (https://github.com/ThePrimeagen/harpoon/issues/577)
+* Instead of numbers for tabs I still want to see what they are.. maybe there's an option in `bufferline-configuration`
+* Switch to Grapple instead because Harpoon2 is buggy. (https://github.com/ThePrimeagen/harpoon/issues/577) or Arrow
 * A window movement mode
 
-* Dropbbar
+* Dropbbar or Barbecue
 
-* Grugfar
 * nvim-spectre
 * :set expandtab for space indentation
 * :set noexpandtab for tab indentation
 * :set shiftwidth=N for number of spaces
 
-* WTF.nvim
-* Avante or Claude Code or Copilot
-* toggle-term
-* Show marks in sidebar
-* <leader>st for todos or something
-* My <ctrl>-k for showing diagnostics was pretty sick ngl.
-* neo-tree or something.
+* overseer.nvim
+* debugging
+* vim-test or neotest
+
 * Better markdown support for tabs and shit
 * a nice bottom bar statusline
     * https://github.com/rebelot/heirline.nvim
-* nvim-barbecue
-* fff.nvim or snacks.picker or fzf.lua
-* AI
-* DONE Smooth Cursor
+
+* AI such as:
+    * WTF.nvim
+    * Avante or Claude Code or Copilot
+* Show marks in sidebar (marks.nvim)
+* toggle-term
+
+* https://github.com/tamton-aquib/zone.nvim?tab=readme-ov-file
+* https://github.com/Eandrju/cellular-automaton.nvim
+* https://github.com/Eandrju/cellular-automaton.nvim
 
 ### Getting Started
 

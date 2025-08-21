@@ -118,6 +118,11 @@ vim.keymap.set('n', '<C-k>', '<cmd>lua vim.diagnostic.open_float()<CR>', { desc 
 vim.keymap.set('n', '<leader>C', '<cmd>tabclose<CR>', { desc = '[c]lose current tab' })
 vim.keymap.set('n', '<leader>tw', '<cmd>set wrap!<CR>', { desc = '[T]oggle [w]ord wrap' })
 
+vim.keymap.set('n', '<S-Up>', '<cmd>resize +2<cr>', { desc = 'Increase Window Height' })
+vim.keymap.set('n', '<S-Down>', '<cmd>resize -2<cr>', { desc = 'Decrease Window Height' })
+vim.keymap.set('n', '<S-Right>', '<cmd>vertical resize +2<cr>', { desc = 'Increase Window Width' })
+vim.keymap.set('n', '<S-Left>', '<cmd>vertical resize -2<cr>', { desc = 'Decrease Window Width' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -1212,6 +1217,17 @@ require('lazy').setup({
   },
 
   {
+    'chentoast/marks.nvim',
+    config = function()
+      require('marks').setup {
+        default_mappings = false,
+        builtin_marks = { '.', '<', '>', '^', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' },
+      }
+      vim.api.nvim_set_hl(0, "MarkSignNumHL", {})
+    end,
+  },
+
+  {
     'chrishrb/gx.nvim',
     keys = { { 'gx', '<cmd>Browse<cr>', mode = { 'n', 'x' } } },
     cmd = { 'Browse' },
@@ -1312,36 +1328,67 @@ require('lazy').setup({
       }
     end,
     keys = {
-      { "[b", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
-      { "]b", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
-      { "[B", "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev" },
-      { "]B", "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer next" },
-      { "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
-      { "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
-    }
+      { '[b', '<cmd>BufferLineCyclePrev<cr>', desc = 'Prev Buffer' },
+      { ']b', '<cmd>BufferLineCycleNext<cr>', desc = 'Next Buffer' },
+      { '[B', '<cmd>BufferLineMovePrev<cr>', desc = 'Move buffer prev' },
+      { ']B', '<cmd>BufferLineMoveNext<cr>', desc = 'Move buffer next' },
+      { '<S-l>', '<cmd>BufferLineCycleNext<cr>', desc = 'Next Buffer' },
+      { '<S-h>', '<cmd>BufferLineCyclePrev<cr>', desc = 'Prev Buffer' },
+    },
   },
 
-    {
-    "MagicDuck/grug-far.nvim",
+  {
+    'MagicDuck/grug-far.nvim',
     opts = { headerMaxWidth = 80 },
-    cmd = "GrugFar",
+    cmd = 'GrugFar',
     keys = {
       {
-        "<leader>fR",
+        '<leader>fR',
         function()
-          local grug = require("grug-far")
-          local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
-          grug.open({
+          local grug = require 'grug-far'
+          local ext = vim.bo.buftype == '' and vim.fn.expand '%:e'
+          grug.open {
             transient = true,
             prefills = {
-              filesFilter = ext and ext ~= "" and "*." .. ext or nil,
+              filesFilter = ext and ext ~= '' and '*.' .. ext or nil,
             },
-          })
+          }
         end,
-        mode = { "n", "v" },
-        desc = "[f]ind and [R]eplace",
+        mode = { 'n', 'v' },
+        desc = '[f]ind and [R]eplace',
       },
     },
+  },
+
+  {
+    'b0o/incline.nvim',
+    config = function()
+      local helpers = require 'incline.helpers'
+      local devicons = require 'nvim-web-devicons'
+      require('incline').setup {
+        window = {
+          padding = 0,
+          margin = { horizontal = 0 },
+        },
+        render = function(props)
+          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ':t')
+          if filename == '' then
+            filename = '[No Name]'
+          end
+          local ft_icon, ft_color = devicons.get_icon_color(filename)
+          local modified = vim.bo[props.buf].modified
+          return {
+            ft_icon and { ' ', ft_icon, ' ', guibg = ft_color, guifg = helpers.contrast_color(ft_color) } or '',
+            ' ',
+            { filename, gui = modified and 'bold,italic' or 'bold' },
+            ' ',
+            guibg = '#44406e',
+          }
+        end,
+      }
+    end,
+    -- Optional: Lazy load Incline
+    event = 'VeryLazy',
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
